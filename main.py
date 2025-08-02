@@ -1,5 +1,5 @@
 import streamlit as st
-from utils.rag import process_all_hdb_documents, process_hdb_documents, load_and_split_pdf, print_chunk_info
+from utils.rag import process_all_hdb_documents
 
 # to call the utility functions in rag.py
 process_all_hdb_documents(True)

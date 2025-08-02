@@ -38,86 +38,6 @@ def load_and_split_pdf(file_path, chunk_size=300, chunk_overlap=30, extract_imag
     
     return chunks
 
-def process_hdb_documents(print_info=True):
-    """
-    Process HDB documents and return chunks.
-    
-    Args:
-        print_info (bool): Whether to print chunk information (default: True)
-    
-    Returns:
-        list: List of document chunks from HDB Buying Procedure PDF
-    """
-    print("Processing HDB documents...")
-    file_path = "data/pdf/HDB _ Buying Procedure for Resale Flats.pdf"
-    chunks = load_and_split_pdf(file_path)
-    
-    if print_info:
-        print_chunk_info(chunks)
-    
-    return chunks
-
-def load_multiple_pdfs(file_paths, chunk_size=300, chunk_overlap=30, extract_images=True):
-    """
-    Load multiple PDF files and split them into chunks.
-    
-    Args:
-        file_paths (list): List of paths to PDF files
-        chunk_size (int): Size of each text chunk (default: 300)
-        chunk_overlap (int): Overlap between chunks (default: 30)
-        extract_images (bool): Whether to extract images from PDF (default: True)
-    
-    Returns:
-        list: Combined list of document chunks from all PDFs
-    """
-    print(f"Loading {len(file_paths)} PDF files...")
-    all_chunks = []
-    
-    for file_path in file_paths:
-        try:
-            print(f"Processing: {file_path}")
-            chunks = load_and_split_pdf(file_path, chunk_size, chunk_overlap, extract_images)
-            all_chunks.extend(chunks)
-            print(f"✅ Added {len(chunks)} chunks from {file_path}")
-        except Exception as e:
-            print(f"❌ Error processing {file_path}: {str(e)}")
-    
-    print(f"Total chunks loaded: {len(all_chunks)}")
-    return all_chunks
-
-def load_pdfs_from_directory(directory_path, chunk_size=300, chunk_overlap=30, extract_images=True):
-    """
-    Load all PDF files from a directory and split them into chunks.
-    
-    Args:
-        directory_path (str): Path to directory containing PDF files
-        chunk_size (int): Size of each text chunk (default: 300)
-        chunk_overlap (int): Overlap between chunks (default: 30)
-        extract_images (bool): Whether to extract images from PDF (default: True)
-    
-    Returns:
-        list: Combined list of document chunks from all PDFs in directory
-    """
-    import os
-    
-    # Get all PDF files in the directory
-    pdf_files = []
-    if os.path.exists(directory_path):
-        for file in os.listdir(directory_path):
-            if file.lower().endswith('.pdf'):
-                pdf_files.append(os.path.join(directory_path, file))
-    else:
-        print(f"Directory not found: {directory_path}")
-        return []
-    
-    print(f"Found {len(pdf_files)} PDF files in {directory_path}")
-    
-    if not pdf_files:
-        print("No PDF files found in directory")
-        return []
-    
-    return load_multiple_pdfs(pdf_files, chunk_size, chunk_overlap, extract_images)
-
 def process_all_hdb_documents(print_info=True, chunk_size=300, chunk_overlap=30):
     """
     Process all HDB documents from the data directory.
@@ -172,4 +92,4 @@ def process_all_hdb_documents(print_info=True, chunk_size=300, chunk_overlap=30)
 
 # For backwards compatibility and testing
 if __name__ == "__main__":
-    chunks = process_hdb_documents()
+    chunks = process_all_hdb_documents()
