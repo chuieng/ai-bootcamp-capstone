@@ -1,5 +1,8 @@
 import streamlit as st
+from utils.rag import process_all_hdb_documents, process_hdb_documents, load_and_split_pdf, print_chunk_info
 
+# to call the utility functions in rag.py
+process_all_hdb_documents(True)
 
 st.set_page_config(
     layout="centered",
@@ -36,6 +39,32 @@ with col2:
 with col3:
     if st.button("📋 Process Guidelines", use_container_width=True):
         st.success("You selected Process Guidelines!")
+        
+        # Load and process HDB documents using RAG functions
+        with st.spinner("Loading HDB documents..."):
+            try:
+                # Process HDB documents and get chunks
+                chunks = process_hdb_documents(print_info=False)  # Don't print to console in Streamlit
+                
+                st.success(f"Successfully loaded {len(chunks)} document chunks!")
+                
+                # Display some chunk information
+                if chunks:
+                    st.write("**Document Processing Summary:**")
+                    st.write(f"- Total chunks: {len(chunks)}")
+                    st.write(f"- First chunk preview: {chunks[0].page_content[:200]}...")
+                    
+                    # Optionally show more details in an expander
+                    with st.expander("View chunk details"):
+                        for i, chunk in enumerate(chunks[:3]):  # Show first 3 chunks
+                            st.write(f"**Chunk {i+1}:**")
+                            st.write(f"Content: {chunk.page_content[:150]}...")
+                            if hasattr(chunk, 'metadata'):
+                                st.write(f"Metadata: {chunk.metadata}")
+                            st.write("---")
+                            
+            except Exception as e:
+                st.error(f"Error loading documents: {str(e)}")
 
 st.write("")
 
@@ -75,6 +104,15 @@ if st.session_state.show_price_analysis:
                             format="$%d", label_visibility="collapsed")
     st.write(f"Selected range: ${price_range[0]:,} - ${price_range[1]:,}")
 
+    #add a button "Analyze" to show the analysis results
+    if st.button("Analyze", use_container_width=True):
+        st.success("Analysis results will be displayed here!")
+        # Here you can add the logic to perform the analysis based on selected filters
+        # For now, we will just display a placeholder message
+        st.write(f"Analyzing resale prices for {selected_town} with the following criteria:")
+        st.write(f"- Flat Types: {', '.join([ft for ft, sel in zip(['1-Room', '2-Room', '3-Room', '4-Room', '5-Room', 'Executive', 'Multi-Generation'], 
+                                                            [room_1, room_2, room_3, room_4, room_5, executive, multi_gen]) if sel])}")
+        st.write(f"- Price Range: ${price_range[0]:,} - ${price_range[1]:,}")
     #END: Price Analysis & Insights
 
 st.write("")
