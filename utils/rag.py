@@ -3,15 +3,6 @@ import json, random
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter, RecursiveJsonSplitter
 
-def print_chunk_info(chunks):
-    """Print information about document chunks including total count and details of a random chunk."""
-    print(f'No of chunks: {len(chunks)}')
-    idx = random.randrange(0, len(chunks))
-    print(f'Chunk index: {idx}')
-    print('Chunk details')
-    for k, v in enumerate(chunks[idx]):
-        print(f'\t{k} = {v}')
-
 def load_and_split_pdf(file_path, chunk_size=300, chunk_overlap=30, extract_images=True):
     """
     Load a PDF file and split it into chunks.
