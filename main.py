@@ -1,8 +1,11 @@
 import streamlit as st
-from utils.rag import process_all_hdb_documents
+from utils.rag import process_all_hdb_documents , create_collection
 
 # to call the utility functions in rag.py
-process_all_hdb_documents(True)
+chunks = process_all_hdb_documents(True)
+
+# Create the collection
+hdb_col = create_collection(chunks)
 
 st.set_page_config(
     layout="centered",

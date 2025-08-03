@@ -2,6 +2,9 @@
 import json, random
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter, RecursiveJsonSplitter
+import chromadb
+from uuid import uuid4
+from chromadb.utils import embedding_functions
 
 def load_and_split_pdf(file_path, chunk_size=300, chunk_overlap=30, extract_images=True):
     """
@@ -81,6 +84,62 @@ def process_all_hdb_documents(print_info=True, chunk_size=300, chunk_overlap=30)
     
     return document_chunks, all_chunks
 
+
+def create_collection(chunks):
+    """
+    Create a collection from the document chunks.
+
+    Args:
+        chunks (list): List of document chunks
+
+    Returns:
+        list: List of dictionaries with chunk content and metadata
+    """
+    # Create embedding model
+    embed_model_name = "BAAI/bge-small-en-v1.5"
+
+    embed_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=embed_model_name)
+
+    # Check if chunks is accidentally a tuple (common mistake)
+    if isinstance(chunks, tuple):
+        print("WARNING: chunks is a tuple, extracting the actual chunks list...")
+        _, chunks = chunks  # Get the second element (all_chunks)
+    
+    # Prepare the chunks for inserting into Chroma
+    # extract page_content from the chunks into an array
+    texts = [ d.page_content for d in chunks ]
+    print(f"Prepare the chunks for inserting into Chroma: {len(texts)}")
+
+    # for every text, generate a unique id for the text
+    ids = [ str(uuid4())[:8] for _ in range(len(texts)) ]
+    print(f"Generated IDs for chunks: {ids}")
+
+    # Create ephemeral Chroma client and save chunks
+    col_name = 'hdb_documents'
+
+    # create the chroma client
+    ch_client = chromadb.Client()
+    try:
+        ch_client.delete_collection(col_name)
+    except:
+        pass
+
+    # create the collection using embedding function
+    hdb_col = ch_client.create_collection(name=col_name, embedding_function=embed_func)
+
+    # Print number of documents in collection
+    print('before inserting: ', hdb_col.count())
+
+    # Add text into collection
+    hdb_col.add(documents=texts, ids=ids)
+
+    # Print number of documents in collection
+    print('after inserting: ', hdb_col.count())
+
+   
+    return hdb_col
+
 # For backwards compatibility and testing
 if __name__ == "__main__":
-    chunks = process_all_hdb_documents()
+    document_chunks, all_chunks = process_all_hdb_documents()
+    create_collection(all_chunks)
