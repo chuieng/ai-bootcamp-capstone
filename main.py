@@ -7,6 +7,18 @@ chunks = process_all_hdb_documents(True)
 # Create the collection
 hdb_col = create_collection(chunks)
 
+# TEST: Query the collection
+question = "What is Option to Purchase?"
+
+# LLM generates an answer based only on those chunks
+results = hdb_col.query(
+      query_texts=[ question ],
+      n_results=5,
+   )
+for element in results['documents'][0]:
+    print(element+'\n')
+# END TEST: Query the collection
+
 st.set_page_config(
     layout="centered",
     page_title="HDB Resale Assistant"
