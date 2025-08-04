@@ -1,5 +1,5 @@
 import streamlit as st
-from backup.rag import process_all_hdb_documents , create_collection
+from utils.rag import process_all_hdb_documents , create_collection
 
 # to call the utility functions in rag.py
 chunks = process_all_hdb_documents(True)
