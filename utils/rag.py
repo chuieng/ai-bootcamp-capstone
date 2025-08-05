@@ -136,10 +136,10 @@ def create_collection(chunks):
     # Print number of documents in collection
     print('after inserting: ', hdb_col.count())
 
-   
     return hdb_col
 
 # For backwards compatibility and testing
 if __name__ == "__main__":
+    print("Starting RAG processing...")
     document_chunks, all_chunks = process_all_hdb_documents()
     create_collection(all_chunks)
