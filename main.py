@@ -1,17 +1,22 @@
 import streamlit as st
-from utils.rag import process_all_hdb_documents , create_collection
+import chromadb
+from chromadb.utils import embedding_functions
 
-# to call the utility functions in rag.py
-chunks = process_all_hdb_documents(True)
+# Connect to persistent ChromaDB client
+client = chromadb.PersistentClient(path="./chroma_db")
 
-# Create the collection
-hdb_col = create_collection(chunks)
+# Create the same embedding function used during collection creation
+embed_model_name = "BAAI/bge-small-en-v1.5"
+embed_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=embed_model_name)
+
+# Get the existing collection
+collection = client.get_collection(name="hdb_documents", embedding_function=embed_func)
 
 # TEST: Query the collection
 question = "What is Option to Purchase?"
 
 # LLM generates an answer based only on those chunks
-results = hdb_col.query(
+results = collection.query(
       query_texts=[ question ],
       n_results=5,
    )
