@@ -114,11 +114,11 @@ def create_collection(chunks):
     ids = [ str(uuid4())[:8] for _ in range(len(texts)) ]
     print(f"Generated IDs for chunks: {ids}")
 
-    # Create ephemeral Chroma client and save chunks
+    # Create persistent Chroma client and save chunks
     col_name = 'hdb_documents'
 
-    # create the chroma client
-    ch_client = chromadb.Client()
+    # create the persistent chroma client
+    ch_client = chromadb.PersistentClient(path="./chroma_db")
     try:
         ch_client.delete_collection(col_name)
     except:
