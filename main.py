@@ -2,27 +2,20 @@ import streamlit as st
 import chromadb
 from chromadb.utils import embedding_functions
 
-# Connect to persistent ChromaDB client
-client = chromadb.PersistentClient(path="./chroma_db")
+# Initialize ChromaDB collection in session state
+if 'collection' not in st.session_state:
+    # Connect to persistent ChromaDB client
+    client = chromadb.PersistentClient(path="./chroma_db")
+    
+    # Create the same embedding function used during collection creation
+    embed_model_name = "BAAI/bge-small-en-v1.5"
+    embed_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=embed_model_name)
+    
+    # Get the existing collection and store in session state
+    st.session_state.collection = client.get_collection(name="hdb_documents", embedding_function=embed_func)
 
-# Create the same embedding function used during collection creation
-embed_model_name = "BAAI/bge-small-en-v1.5"
-embed_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=embed_model_name)
-
-# Get the existing collection
-collection = client.get_collection(name="hdb_documents", embedding_function=embed_func)
-
-# TEST: Query the collection
-question = "What is Option to Purchase?"
-
-# LLM generates an answer based only on those chunks
-results = collection.query(
-      query_texts=[ question ],
-      n_results=5,
-   )
-for element in results['documents'][0]:
-    print(element+'\n')
-# END TEST: Query the collection
+# Access collection from session state
+collection = st.session_state.collection
 
 st.set_page_config(
     layout="centered",
