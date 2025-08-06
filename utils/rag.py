@@ -125,18 +125,18 @@ def create_collection(chunks):
         pass
 
     # create the collection using embedding function
-    hdb_col = ch_client.create_collection(name=col_name, embedding_function=embed_func)
+    hdb_doc_collection = ch_client.create_collection(name=col_name, embedding_function=embed_func)
 
     # Print number of documents in collection
-    print('before inserting: ', hdb_col.count())
+    print('before inserting: ', hdb_doc_collection.count())
 
     # Add text into collection
-    hdb_col.add(documents=texts, ids=ids)
+    hdb_doc_collection.add(documents=texts, ids=ids)
 
     # Print number of documents in collection
-    print('after inserting: ', hdb_col.count())
+    print('after inserting: ', hdb_doc_collection.count())
 
-    return hdb_col
+    return hdb_doc_collection
 
 # For backwards compatibility and testing
 if __name__ == "__main__":
