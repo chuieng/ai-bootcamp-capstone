@@ -53,20 +53,22 @@ if prompt := st.chat_input("What would you like to ask?"):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Generate a response using the OpenAI API.
-    stream = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": m["role"], "content": m["content"]}
-            for m in st.session_state.messages
-        ],
-        stream=True,
-    )
-
-    # Stream the response to the chat using `st.write_stream`, then store it in 
-    # session state.
+    # Generate a response using the agent with RAG
     with st.chat_message("assistant"):
-        response = st.write_stream(stream)
+        with st.spinner("Searching HDB documents..."):
+            try:
+                # Create agent if not in session state
+                if 'agent' not in st.session_state:
+                    st.session_state.agent = create_agent()
+                
+                # Query the agent with RAG capabilities
+                response = query_agent(st.session_state.agent, prompt)
+                st.markdown(response)
+                
+            except Exception as e:
+                response = f"Sorry, I encountered an error: {str(e)}"
+                st.markdown(response)
+    
     st.session_state.messages.append({"role": "assistant", "content": response})
 
 
