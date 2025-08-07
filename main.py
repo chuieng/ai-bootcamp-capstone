@@ -61,8 +61,27 @@ if prompt := st.chat_input("What would you like to ask?"):
                 if 'agent' not in st.session_state:
                     st.session_state.agent = create_agent()
                 
-                # Query the agent with RAG capabilities
-                response = query_agent(st.session_state.agent, prompt)
+                # Build context from conversation history
+                conversation_context = ""
+                if len(st.session_state.messages) > 1:  # If there are previous messages
+                    conversation_context = "\n\nPrevious conversation:\n"
+                    # Get last few messages for context (excluding the current user message)
+                    recent_messages = st.session_state.messages[-6:-1]  # Last 3 exchanges (6 messages)
+                    for msg in recent_messages:
+                        role = "User" if msg["role"] == "user" else "Assistant"
+                        conversation_context += f"{role}: {msg['content']}\n"
+                
+                # Create enhanced prompt with context
+                enhanced_prompt = f"""
+                {conversation_context}
+                
+                Current question: {prompt}
+                
+                Please answer the current question while considering the conversation history above.
+                """
+                
+                # Query the agent with enhanced prompt
+                response = query_agent(st.session_state.agent, enhanced_prompt)
                 st.markdown(response)
                 
             except Exception as e:
