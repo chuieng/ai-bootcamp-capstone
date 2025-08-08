@@ -20,15 +20,12 @@ if 'hdb_documents_collection' not in st.session_state:
     # Get the existing collection and store in session state
     st.session_state.hdb_documents_collection = client.get_collection(name="hdb_documents", embedding_function=embed_func)
 
-# agent = create_agent()
-# response = query_agent(agent, "What is Option to Purchase?")
-# print(f"hihi Response from agent is ...: {response}")
-# st.set_page_config(
-#     layout="centered",
-#     page_title="HDB Resale Assistant"
-# )
+st.set_page_config(
+    layout="centered",
+    page_title="HDB Resale Process Chatbot"
+)
 
-st.title("HDB Resale Process Assistant")
+st.title("HDB Resale Process Chatbot")
 
 load_dotenv()
 OPENAI_KEY = os.getenv('OPENAI_API_KEY')
