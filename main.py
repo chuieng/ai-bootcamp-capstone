@@ -65,24 +65,24 @@ if prompt := st.chat_input("What would you like to ask?"):
                 # Build context from conversation history
                 conversation_context = ""
                 if len(st.session_state.messages) > 1:  # If there are previous messages
-                    conversation_context = "\n\nPrevious conversation:\n"
+                    conversation_context = "\nPrevious conversation:\n"
                     # Get last few messages for context (excluding the current user message)
                     recent_messages = st.session_state.messages[-6:-1]  # Last 3 exchanges (6 messages)
                     for msg in recent_messages:
                         role = "User" if msg["role"] == "user" else "Assistant"
                         conversation_context += f"{role}: {msg['content']}\n"
                 
-                # Create enhanced prompt with context
-                enhanced_prompt = f"""
-                {conversation_context}
+                # # Create enhanced prompt with context
+                # enhanced_prompt = f"""
+                # {conversation_context}
                 
-                Current question: {prompt}
+                # Current question: {prompt}
                 
-                Please answer the current question while considering the conversation history above.
-                """
+                # Please answer the current question while considering the conversation history above.
+                # """
                 
                 # Query the agent with enhanced prompt
-                response = query_agent(st.session_state.agent, enhanced_prompt)
+                response = query_agent(st.session_state.agent, prompt, conversation_context)
                 
                 sanitized_response = sanitize_response(response)
                 st.write(sanitized_response)

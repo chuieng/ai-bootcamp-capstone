@@ -65,10 +65,12 @@ def create_agent():
 #    return agent.run(prompt)
 
 
-def query_agent(agent, question):
+def query_agent(agent, question, conversation_context):
    prompt = f"""
    You are a helpful assistant that only answers questions based on the following official HDB documents related to resale flats in Singapore.
-
+   
+   {conversation_context}
+   
    QUESTION:
    "{question}"
 
