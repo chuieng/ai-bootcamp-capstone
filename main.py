@@ -89,9 +89,9 @@ if prompt := st.chat_input("What would you like to ask?"):
                 
             except Exception as e:
                 response = f"Sorry, I encountered an error: {str(e)}"
-                st.write(response)
+                st.write(sanitized_response)
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": sanitized_response})
 
 
 # mass comment below
