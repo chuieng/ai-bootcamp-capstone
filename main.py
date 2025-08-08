@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from chromadb.utils import embedding_functions
 from utils.agent_tool import create_agent, query_agent
+from utils.helper import sanitize_response
 
 # Initialize ChromaDB collection in session state
 if 'hdb_documents_collection' not in st.session_state:
@@ -42,7 +43,7 @@ if "messages" not in st.session_state:
 # Display the existing chat messages via `st.chat_message`.
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        st.write(message["content"])
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
@@ -51,7 +52,7 @@ if prompt := st.chat_input("What would you like to ask?"):
     # Store and display the current prompt.
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.write(prompt)
 
     # Generate a response using the agent with RAG
     with st.chat_message("assistant"):
@@ -82,12 +83,14 @@ if prompt := st.chat_input("What would you like to ask?"):
                 
                 # Query the agent with enhanced prompt
                 response = query_agent(st.session_state.agent, enhanced_prompt)
-                st.markdown(response)
+                
+                sanitized_response = sanitize_response(response)
+                st.write(sanitized_response)
                 
             except Exception as e:
                 response = f"Sorry, I encountered an error: {str(e)}"
-                st.markdown(response)
-    
+                st.write(response)
+
     st.session_state.messages.append({"role": "assistant", "content": response})
 
 
