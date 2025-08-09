@@ -27,10 +27,10 @@ st.set_page_config(
 
 st.title("HDB Resale Process Chatbot")
 
-load_dotenv()
-OPENAI_KEY = os.getenv('OPENAI_API_KEY')
- # Create an OpenAI client.
-client = OpenAI(api_key=OPENAI_KEY)
+# load_dotenv()
+# OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+#  # Create an OpenAI client.
+# client = OpenAI(api_key=OPENAI_KEY)
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
