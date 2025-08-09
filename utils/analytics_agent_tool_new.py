@@ -365,7 +365,7 @@ def create_analytics_agent():
             additional_authorized_imports=[
                 "pandas", "numpy", "datetime", "matplotlib", "plotly", "seaborn"
             ],
-            max_steps=10
+            max_steps=5
         )
         
         print(f"Analytics agent created successfully with {len(custom_tools)} custom tools")
@@ -430,6 +430,12 @@ def query_analytics_agent(agent, question: str, conversation_context: str = "") 
         User Question: {question}
         
         Please provide a comprehensive analysis using the available tools and data.
+
+
+        GUIDELINES:
+        - Present your answer in a clear, concise paragraph format.
+        - Present data in a structured way, and proper formatting.
+        - Answer in a professional and helpful manner.
         """
         
         # Query the agent
