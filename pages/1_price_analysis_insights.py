@@ -97,11 +97,11 @@ I can help you with:
 What would you like to know about the HDB resale market?""")
 
 # Create a session state variable to store the chat messages
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+if "price_ai_messages" not in st.session_state:
+    st.session_state.price_ai_messages = []
 
 # Display the existing chat messages
-for message in st.session_state.messages:
+for message in st.session_state.price_ai_messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
@@ -109,7 +109,7 @@ for message in st.session_state.messages:
 if prompt := st.chat_input("What would you like to ask about HDB prices?"):
 
     # Store and display the current prompt
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.price_ai_messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
 
@@ -123,10 +123,10 @@ if prompt := st.chat_input("What would you like to ask about HDB prices?"):
                 
                 # Build context from conversation history
                 conversation_context = ""
-                if len(st.session_state.messages) > 1:  # If there are previous messages
+                if len(st.session_state.price_ai_messages) > 1:  # If there are previous messages
                     conversation_context = "\nPrevious conversation:\n"
                     # Get last few messages for context (excluding the current user message)
-                    recent_messages = st.session_state.messages[-6:-1]  # Last 3 exchanges
+                    recent_messages = st.session_state.price_ai_messages[-6:-1]  # Last 3 exchanges
                     for msg in recent_messages:
                         role = "User" if msg["role"] == "user" else "Assistant"
                         conversation_context += f"{role}: {msg['content']}\n"
@@ -137,12 +137,12 @@ if prompt := st.chat_input("What would you like to ask about HDB prices?"):
                 st.write(sanitized_response)
                 
                 # Store the response
-                st.session_state.messages.append({"role": "assistant", "content": sanitized_response})
+                st.session_state.price_ai_messages.append({"role": "assistant", "content": sanitized_response})
                 
             except Exception as e:
                 error_msg = f"Sorry, I encountered an error: {str(e)}"
                 st.error(error_msg)
-                st.session_state.messages.append({"role": "assistant", "content": error_msg})
+                st.session_state.price_ai_messages.append({"role": "assistant", "content": error_msg})
 
 # Additional features
 # st.markdown("---")
