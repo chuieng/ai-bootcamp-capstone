@@ -439,29 +439,3 @@ def query_analytics_agent(agent, question: str, conversation_context: str = "") 
     except Exception as e:
         return f"Error querying analytics agent: {str(e)}"
 
-
-def sanitize_response(response: str) -> str:
-    """Clean and format the agent response for display"""
-    try:
-        # Remove any code execution markers
-        if "```" in response:
-            lines = response.split('\n')
-            cleaned_lines = []
-            in_code_block = False
-            
-            for line in lines:
-                if line.strip().startswith('```'):
-                    in_code_block = not in_code_block
-                    continue
-                if not in_code_block:
-                    cleaned_lines.append(line)
-            
-            response = '\n'.join(cleaned_lines)
-        
-        # Clean up extra whitespace
-        response = '\n'.join(line.strip() for line in response.split('\n') if line.strip())
-        
-        return response
-        
-    except Exception as e:
-        return f"Error sanitizing response: {str(e)}"
