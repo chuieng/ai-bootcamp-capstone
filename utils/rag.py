@@ -84,8 +84,7 @@ def process_all_hdb_documents(print_info=True, chunk_size=300, chunk_overlap=30)
     
     return document_chunks, all_chunks
 
-
-def create_collection(chunks):
+def create_pdf_collection(chunks):
     """
     Create a collection from the document chunks.
 
@@ -142,4 +141,4 @@ def create_collection(chunks):
 if __name__ == "__main__":
     print("Starting RAG processing...")
     document_chunks, all_chunks = process_all_hdb_documents()
-    create_collection(all_chunks)
+    create_pdf_collection(all_chunks)
