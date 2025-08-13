@@ -1,6 +1,7 @@
 import streamlit as st
 import sys
 import os
+from utils.check_pw import check_password
 
 # Add the utils directory to the Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
@@ -14,6 +15,10 @@ st.set_page_config(
     page_title="HDB Resale Price Analysis and Insights",
     page_icon="🏠"
 )
+
+# Do not continue if check_password is not True.  
+if not check_password():  
+    st.stop()
 
 st.title("🏠 HDB Resale Price Analysis and Insights")
 

@@ -2,8 +2,7 @@ import streamlit as st
 import chromadb
 import os
 
-from dotenv import load_dotenv
-from openai import OpenAI
+from utils.check_pw import check_password
 from chromadb.utils import embedding_functions
 from utils.agent_tool import create_agent, query_agent
 from utils.helper import sanitize_response
@@ -24,6 +23,10 @@ st.set_page_config(
     layout="wide",
     page_title="HDB Resale Process Assistant"
 )
+
+# Do not continue if check_password is not True.  
+if not check_password():  
+    st.stop()
 
 st.title("💬 HDB Resale Process Assistant")
 
