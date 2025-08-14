@@ -1,3 +1,6 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 import chromadb
 import os
@@ -7,9 +10,6 @@ from chromadb.utils import embedding_functions
 from utils.agent_tool import create_agent, query_agent
 from utils.helper import sanitize_response
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # Initialize ChromaDB collection in session state
 if 'hdb_documents_collection' not in st.session_state:
