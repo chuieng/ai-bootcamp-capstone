@@ -1,14 +1,8 @@
 import os
 import streamlit as st
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.express as px
-import plotly.graph_objects as go
-from dotenv import load_dotenv
-from smolagents import tool, Tool, CodeAgent, OpenAIServerModel
-from datetime import datetime, timedelta
+from smolagents import tool, CodeAgent, OpenAIServerModel
+from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -363,7 +357,7 @@ def create_analytics_agent():
             model=agent_model,
             add_base_tools=True,
             additional_authorized_imports=[
-                "pandas", "numpy", "datetime", "matplotlib", "plotly", "seaborn"
+                "pandas","datetime"
             ],
             max_steps=5
         )
