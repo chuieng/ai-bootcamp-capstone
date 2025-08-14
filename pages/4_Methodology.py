@@ -566,6 +566,6 @@ st.markdown("""
 <b>Methodology Documentation</b><br>
 HDB Resale Assistant - Technical Implementation Guide<br>
 AI Champions Bootcamp Capstone Project<br>
-© 2024 - Educational Use Only
+© 2025 - Educational Use Only
 </div>
 """, unsafe_allow_html=True)
