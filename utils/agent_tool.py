@@ -34,8 +34,8 @@ def get_answer(question: str) -> dict:
 
 def create_agent():
     # Load environment variables
-    load_dotenv()
-    OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+   #  load_dotenv()
+    OPENAI_KEY = st.secrets.get("OPENAI_API_KEY")
     
     if not OPENAI_KEY:
         raise ValueError("OPENAI_API_KEY not found in environment variables")

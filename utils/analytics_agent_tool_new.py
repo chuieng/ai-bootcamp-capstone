@@ -339,8 +339,8 @@ def create_analytics_agent():
     """Create and configure the analytics agent with custom tools"""
     try:
         # Load environment variables
-        load_dotenv()
-        OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+        # load_dotenv()
+        OPENAI_KEY = st.secrets.get("OPENAI_API_KEY")
         
         if not OPENAI_KEY:
             raise ValueError("OPENAI_API_KEY not found in environment variables")
