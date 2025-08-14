@@ -1,6 +1,3 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 import chromadb
 import os
@@ -45,7 +42,8 @@ I have access to comprehensive information about:
 - 📋 Policies & Requirements
 - 🎯 Planning Considerations
 
-Example questions: "What documents do I need for HDB resale?" or "How does the Option to Purchase work?""")
+Example questions: "What documents do I need for HDB resale?" or "How does the Option to Purchase work?"
+""")
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
