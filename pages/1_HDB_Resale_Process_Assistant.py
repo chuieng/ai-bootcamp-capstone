@@ -9,6 +9,7 @@ from utils.helper import sanitize_response
 
 # Initialize ChromaDB collection in session state
 if 'hdb_documents_collection' not in st.session_state:
+    print("loading hdb_documents_collection into session state")
     # Connect to persistent ChromaDB client
     client = chromadb.PersistentClient(path="./chroma_db")
     
@@ -18,6 +19,7 @@ if 'hdb_documents_collection' not in st.session_state:
     
     # Get the existing collection and store in session state
     st.session_state.hdb_documents_collection = client.get_collection(name="hdb_documents", embedding_function=embed_func)
+    print(f"loaded hdb_documents_collection into session state - {st.session_state.hdb_documents_collection.count()} chunks")
 
 st.set_page_config(
     layout="wide",
