@@ -54,22 +54,9 @@ def create_agent():
     return agent
 
 
-# def query_agent(agent, question):
-#    prompt = f"""
-#     Find the answers to "{question}".
-#     If there are multiple answers, display the answers in a numbered list starting from 1. 
-#     If there is only 1 answer, display the answer without a list.
-#     Do not use the Internet. If you cannot find any answer, say "There is no answer"
-#     """
-   
-#    return agent.run(prompt)
-
-
-def query_agent(agent, question, conversation_context):
+def query_agent(agent, question):
    prompt = f"""
    You are a helpful assistant that only answers questions based on the following official HDB documents related to resale flats in Singapore.
-   
-   {conversation_context}
    
    QUESTION:
    "{question}"
