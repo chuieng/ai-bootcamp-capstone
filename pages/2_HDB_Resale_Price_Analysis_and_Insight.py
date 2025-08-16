@@ -34,6 +34,10 @@ I can help you with:
 
 Example questions: "What are the price trends for 4-room flats in Bukit Timah?" or "With a budget of $400k can I get a 4-room flat in Tampines?" or "Which area is cheaper in price? Tampines or Woodland 3-room flat?".""")
 
+# Create agent if not in session state
+if 'agent' not in st.session_state:
+    st.session_state.agent = create_analytics_agent()
+
 # Create a session state variable to store the chat messages
 if "price_ai_messages" not in st.session_state:
     st.session_state.price_ai_messages = []
@@ -42,6 +46,7 @@ if "price_ai_messages" not in st.session_state:
 for message in st.session_state.price_ai_messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
+
 
 # Create a chat input field to allow the user to enter a message
 if prompt := st.chat_input("What would you like to know about the HDB resale market?"):
@@ -55,22 +60,9 @@ if prompt := st.chat_input("What would you like to know about the HDB resale mar
     with st.chat_message("assistant"):
         with st.spinner("Analyzing HDB data..."):
             try:
-                # Create agent if not in session state
-                if 'agent' not in st.session_state:
-                    st.session_state.agent = create_analytics_agent()
-                
-                # Build context from conversation history
-                conversation_context = ""
-                if len(st.session_state.price_ai_messages) > 1:  # If there are previous messages
-                    conversation_context = "\nPrevious conversation:\n"
-                    # Get last few messages for context (excluding the current user message)
-                    recent_messages = st.session_state.price_ai_messages[-6:-1]  # Last 3 exchanges
-                    for msg in recent_messages:
-                        role = "User" if msg["role"] == "user" else "Assistant"
-                        conversation_context += f"{role}: {msg['content']}\n"
                 
                 # Query the analytics agent
-                response = query_analytics_agent(st.session_state.agent, prompt, conversation_context)
+                response = query_analytics_agent(st.session_state.agent, prompt)
                 sanitized_response = sanitize_response(response)
                 st.write(sanitized_response)
                 

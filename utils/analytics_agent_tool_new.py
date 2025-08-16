@@ -370,7 +370,7 @@ def create_analytics_agent():
         raise
 
 
-def query_analytics_agent(agent, question: str, conversation_context: str = "") -> str:
+def query_analytics_agent(agent, question: str) -> str:
     """
     Query the analytics agent with enhanced prompts for HDB price analysis
     
@@ -418,8 +418,6 @@ def query_analytics_agent(agent, question: str, conversation_context: str = "") 
         # Combine context and question
         full_prompt = f"""
         {system_prompt}
-        
-        {conversation_context}
         
         User Question: {question}
         
