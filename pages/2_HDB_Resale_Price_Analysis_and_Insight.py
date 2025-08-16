@@ -32,7 +32,7 @@ I can help you with:
 - 💡 Market insights and value indicators
 - 📊 Historical data analysis and forecasting
 
-Example questions: "What are the price trends for 4-room flats in Bukit Timah?" or "With a budget of $400k can I get a 4-room flat in Tampines?".""")
+Example questions: "What are the price trends for 4-room flats in Bukit Timah?" or "With a budget of $400k can I get a 4-room flat in Tampines?" or "Which area is cheaper in price? Tampines or Woodland 3-room flat?".""")
 
 # Create a session state variable to store the chat messages
 if "price_ai_messages" not in st.session_state:
