@@ -23,7 +23,7 @@ This use case enables users to ask natural language questions about HDB policies
 ### **Technical Implementation:**
 - **Architecture**: Retrieval-Augmented Generation (RAG)
 - **Vector Database**: ChromaDB with persistent storage
-- **Embedding Model**: BAAI/bge-small-en-v1.5 (384-dimensional vectors)
+- **Embedding Model**: BAAI/bge-small-en-v1.5
 - **LLM**: OpenAI GPT-4o-mini with specialized system prompts
 - **Agent Framework**: SmolagentS with custom tools
             
