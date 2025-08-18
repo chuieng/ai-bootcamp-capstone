@@ -341,8 +341,8 @@ def create_analytics_agent():
         
         # Create the model
         model = "gpt-4o-mini"
-        agent_model = OpenAIServerModel(model_id=model, api_key=OPENAI_KEY)
-        
+        agent_model = OpenAIServerModel(model_id=model, api_key=OPENAI_KEY, temperature=0.5)
+
         # Define custom tools
         custom_tools = [
             analyze_price_trends,

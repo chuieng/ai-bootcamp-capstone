@@ -44,7 +44,7 @@ def create_agent():
     model = "gpt-4o-mini"  # Fixed model name
     
     # Create the model for the agent to use
-    agent_model = OpenAIServerModel(model_id=model, api_key=OPENAI_KEY)
+    agent_model = OpenAIServerModel(model_id=model, api_key=OPENAI_KEY, temperature=0.5)
     
     # Create an agent with our own tools
     tools = [get_answer]
